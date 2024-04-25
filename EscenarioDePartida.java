@@ -35,7 +35,6 @@ public class EscenarioDePartida
         gmailServer = new MailServer();
         mailClie1 = new MailClient(gmailServer, "pepe@gmail.com");
         mailClie2 = new MailClient(gmailServer, "maria@gmail.com");
-        mailClie1.printNextMailItem();
         mailClie1.sendMailItem("maria@gmail.com", "Hola María, soy Pepe!");
     }
 

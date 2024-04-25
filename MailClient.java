@@ -50,9 +50,27 @@ public class MailClient
      * @param to The intended recipient.
      * @param message The text of the message to be sent.
      */
-    public void sendMailItem(String to, String message)
+    public void sendMailItem(String to, String message, String mensaje)
     {
         MailItem item = new MailItem(user, to, message);
         server.post(item);
     }
+    
+    public int getNumberOfMessageInServer() {
+        return 1;
+    }
+    
+    public MailItem getLastReceivedMail() { 
+        MailItem Pepo = new MailItem("","","");
+        return Pepo;
+    }
+    
+    public String getStatus() {
+        return "";
+    }
+    
+    public void receiveAndAutorespond() {
+        return;
+    }
+    
 }
