@@ -57,7 +57,7 @@ public class MailClient
     }
     
     public int getNumberOfMessageInServer() {
-        return 1;
+        return server.howManyMailItems(user);
     }
     
     public String getStatus() {
