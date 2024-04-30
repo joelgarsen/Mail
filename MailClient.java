@@ -72,10 +72,7 @@ public class MailClient
     }
     
     public void receiveAndAutorespond() {
-        MailItem item = server.getNextMailItem(user);
-        if (item != null) {
-            lastReceivedMail = item;
-        }
+        return;
     }
     
      public MailItem getLastReceivedMail() { 
