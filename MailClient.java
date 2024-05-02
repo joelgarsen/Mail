@@ -30,9 +30,16 @@ public class MailClient
     public MailItem getNextMailItem()
     {
         MailItem item = server.getNextMailItem(user);
-        if (item != null) {
-            lastReceivedMail = item;
+        if (item == null) {
+            return null;
         }
+        String mensaje= item.getMessage();
+        String asunto = item.getSubject();
+        boolean Spam = (mensaje.contains("loteria") || mensaje.contains("viagra")) && !asunto.contains(user);
+        if (Spam) {
+            return null;
+        }
+        lastReceivedMail = item;
         return item;
     }
 
