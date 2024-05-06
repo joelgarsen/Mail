@@ -1,10 +1,4 @@
-/**
- * A class to model a simple email client. The client is run by a
- * particular user, and sends and retrieves mail via a particular server.
- * 
- * @author David J. Barnes and Michael Kölling
- * @version 2011.07.31
- */
+import java.util.ArrayList;
 public class MailClient
 {
     // The server used for sending and receiving.
@@ -13,6 +7,14 @@ public class MailClient
     private String user;
     
     private MailItem lastReceivedMail;
+    
+    private int mensajesEnviados;
+    
+    private int mensajesRecibidos;
+    
+    private String correoMasLargo;
+    
+    private int longitudMaxima;
 
     /**
      * Create a mail client run by user and attached to the given server.
@@ -22,6 +24,18 @@ public class MailClient
         this.server = server;
         this.user = user;
         this.lastReceivedMail = null;
+        this.mensajesEnviados = 0;
+        this.mensajesRecibidos = 0;
+        this.correoMasLargo = "";
+        this.longitudMaxima = 0;
+    }
+    
+    public String getStatus() {
+        String comprobacion = "";
+        if (longitudMaxima != 0) {
+            comprobacion = longitudMaxima +"";
+        }
+        return mensajesRecibidos + "," + mensajesEnviados + "," + correoMasLargo + "," + comprobacion;
     }
 
     /**
@@ -35,9 +49,15 @@ public class MailClient
         }
         String mensaje= item.getMessage();
         String asunto = item.getSubject();
-        boolean Spam = (mensaje.contains("loteria") || mensaje.contains("viagra")) && !asunto.contains(user);
-        if (Spam) {
+        boolean spam = (mensaje.contains("loteria") || mensaje.contains("viagra")) && !asunto.contains(user);
+        if (spam) {
             return null;
+        } else {
+            mensajesRecibidos++;
+            if(mensaje.length() > longitudMaxima){
+                longitudMaxima = mensaje.length();
+                correoMasLargo = item.getFrom();
+            }
         }
         lastReceivedMail = item;
         return item;
@@ -68,14 +88,11 @@ public class MailClient
     {
         MailItem item = new MailItem(user, to, subject, message);
         server.post(item);
+        mensajesEnviados++;
     }
     
     public int getNumberOfMessageInServer() {
         return server.howManyMailItems(user);
-    }
-    
-    public String getStatus() {
-        return "";
     }
     
     public void receiveAndAutorespond() {
